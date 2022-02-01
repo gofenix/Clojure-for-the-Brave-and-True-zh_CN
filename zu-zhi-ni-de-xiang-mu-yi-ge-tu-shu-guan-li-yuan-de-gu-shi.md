@@ -22,7 +22,7 @@
 
 在 Clojure 中想象一个类似的设置是很有用的。我认为 Clojure 是将对象（如数据结构和函数）存储在一组巨大的编号架上。没有人能够直接知道一个对象被存储在哪个架子上。相反，我们给 Clojure 一个标识符，它用来检索该对象。
 
-为了使之成功，Clojure 必须维护我们的标识符和货架地址之间的关联。它通过使用_namespaces_来做到这一点。命名空间包含了人类友好的_符号_和书架地址的引用之间的映射，被称为_vars_，很像卡片目录。
+为了使之成功，Clojure 必须维护我们的标识符和货架地址之间的关联。它通过使用_namespaces_来做到这一点。命名空间包含了人类友好的_符号_和书架地址的引用之间的 Map，被称为_vars_，很像卡片目录。
 
 从技术上讲，命名空间是 "clojure.lang.Namespace "类型的对象，你可以与它们互动，就像你可以与 Clojure 数据结构互动一样。例如，你可以用`*ns*`来引用当前的命名空间，你可以用`(ns-name *ns*)`来获得其名称。
 
@@ -35,7 +35,7 @@
 
 当前名字空间的概念意味着你可以有多个名字空间，事实上 Clojure 允许你创建任意多的名字空间（尽管从技术上讲，你可以创建的名字数量可能有一个上限）。在 Clojure 程序中，你总是_在_个命名空间中。
 
-至于符号，你一直在使用它们，甚至没有意识到。例如，当你写`(map inc [1 2])`时，`map`和`inc`都是符号。符号是 Clojure 中的数据类型，我将在下一章中彻底解释它们。现在，你需要知道的是，当你给 Clojure 一个像`map`这样的符号时，它会在当前命名空间中找到相应的 var，得到一个架子上的地址，并为你从那个架子上检索一个对象--在这里，就是`map`所指的那个函数。如果你想只使用符号本身，而不是它所指的东西，你必须引用它。引述任何 Clojure 的形式告诉 Clojure 不要评估它，而是把它当作数据。接下来的几个例子显示了当你引用一个表单时会发生什么。
+至于符号，你一直在使用它们，甚至没有意识到。例如，当你写`(map inc [1 2])`时，`map`和`inc`都是符号。符号是 Clojure 中的数据类型，我将在下一章中彻底解释它们。现在，你需要知道的是，当你给 Clojure 一个像`map`这样的符号时，它会在当前命名空间中找到相应的 var，得到一个架子上的地址，并为你从那个架子上检索一个对象--在这里，就是`map`所指的那个函数。如果你想只使用符号本身，而不是它所指的东西，你必须引用它。引述任何 Clojure 的形式告诉 Clojure 不要求值它，而是把它当作数据。接下来的几个例子显示了当你引用一个 Form 时会发生什么。
 
 ```
 ➊ inc
@@ -51,7 +51,7 @@
 ; => (map inc [1 2])
 ```
 
-当你在 REPL 中评估 `inc` 在 ➊ 处时，它会打印出 `inc` 所指的函数的文本表述。接下来，你在➋引用`inc`，所以结果是符号`inc`。然后，你在➌处评估一个熟悉的`map`应用程序，得到一个熟悉的结果。之后，你在➍处引用整个列表数据结构，结果是一个未评估的列表，包括`map`符号、`inc`符号和一个向量。
+当你在 REPL 中求值 `inc` 在 ➊ 处时，它会打印出 `inc` 所指的函数的文本表述。接下来，你在➋引用`inc`，所以结果是符号`inc`。然后，你在➌处求值一个熟悉的`map`应用程序，得到一个熟悉的结果。之后，你在➍处引用整个列表数据结构，结果是一个未求值的列表，包括`map`符号、`inc`符号和一个 Vector。
 
 现在你知道了 Clojure 的组织系统，让我们来看看如何使用它。
 
@@ -75,7 +75,7 @@ great-books
 4. 将书架的地址写在 var 上。
 5. 5.返回 var（在这个例子中，\`#'user/great-books'）。
 
-这个过程被称为_interning_一个 var。 你可以使用\`ns-interns'与命名空间的符号到内含变量的映射进行交互。下面是你如何获得一个内部变量的映射。
+这个过程被称为_interning_一个 var。 你可以使用\`ns-interns'与命名空间的符号到内含变量的 Map 进行交互。下面是你如何获得一个内部变量的 Map。
 
 ```
 (ns-interns *ns*)
@@ -89,7 +89,7 @@ great-books
 ; => #'user/great-books
 ```
 
-通过评估`(`ns-map _ns_)`,`你也可以得到命名空间在给定一个符号时用来查找 var 的完整 Map。`(ns-map *ns*)`给你一个非常大的 Map，我不会在这里打印，但可以试试
+通过求值`(`ns-map _ns_)`,`你也可以得到命名空间在给定一个符号时用来查找 var 的完整 Map。`(ns-map *ns*)`给你一个非常大的 Map，我不会在这里打印，但可以试试
 
 `#'user/great-books'是var的*读者形式。 我将在第七章解释更多关于读者形式。现在，只需知道你可以使用`#''来抓取与后面的符号对应的 var；`#'user/great-books'让你在`user'命名空间中使用与符号`great-books'相关的var。我们可以`deref'变量来获得它们所指向的对象。
 
@@ -119,7 +119,7 @@ great-books
 
 ![img](https://www.braveclojure.com/assets/images/cftbat/organization/bee-power.png)
 
-var 已经更新了新的矢量的地址。这就像你在卡片目录中的卡片上的地址用了白笔，然后写了一个新地址。其结果是，你不能再要求 Clojure 找到第一个向量。这被称为_名称碰撞_。混乱! 无政府状态!
+var 已经更新了新的 Vector 的地址。这就像你在卡片目录中的卡片上的地址用了白笔，然后写了一个新地址。其结果是，你不能再要求 Clojure 找到第一个 Vector。这被称为_名称碰撞_。混乱! 无政府状态!
 
 你可能在其他编程语言中经历过这种情况。JavaScript 在这方面是臭名昭著的，它也发生在 Ruby 中。这是个问题，因为你可能无意中覆盖了你自己的代码，而且你也不能保证第三方库不会覆盖你的代码。Melvil 惊恐地退缩了! 幸运的是，Clojure 允许你创建任意多的命名空间，这样你就可以避免这些碰撞。
 
@@ -199,7 +199,7 @@ cheese.analysis=> cheddars
 ; => ["mild" "medium" "strong" "sharp" "extra sharp"]
 ```
 
-这段代码创建了一个 "cheese.taxonomy "命名空间和其中的两个向量。 `cheddars`和`bries`。然后它创建并移动到一个新的命名空间，称为`cheese.analysis`。用命名空间的符号调用`refer`可以让你引用相应的命名空间的对象，而不需要使用完全限定的符号。它通过更新当前命名空间的符号/对象映射来实现这一目的。你可以看到像这样的新条目。
+这段代码创建了一个 "cheese.taxonomy "命名空间和其中的两个 Vector。 `cheddars`和`bries`。然后它创建并移动到一个新的命名空间，称为`cheese.analysis`。用命名空间的符号调用`refer`可以让你引用相应的命名空间的对象，而不需要使用完全限定的符号。它通过更新当前命名空间的符号/对象 Map 来实现这一目的。你可以看到像这样的新条目。
 
 ```
 cheese.analysis=> (clojure.core/get (clojure.core/ns-map clojure.core/*ns*) 'bries)
@@ -215,7 +215,7 @@ cheese.analysis=> (clojure.core/get (clojure.core/ns-map clojure.core/*ns*) 'che
 2. 将其与当前命名空间的`ns-map`合并。
 3. 将结果作为当前命名空间的新的\`ns-map'。
 
-当你调用`refer`时，你也可以把过滤器`:only`, `:exclude`, 和`:rename`传递给它。正如名字所暗示的，`:only`和`:exclude`限制了哪些符号/变量映射被合并到当前命名空间的`ns-map`。 `:rename`允许你使用不同的符号来表示被合并的变量。如果我们将前面的例子修改为使用`:only`，会发生以下情况。
+当你调用`refer`时，你也可以把过滤器`:only`, `:exclude`, 和`:rename`传递给它。正如名字所暗示的，`:only`和`:exclude`限制了哪些符号/变量 Map 被合并到当前命名空间的`ns-map`。 `:rename`允许你使用不同的符号来表示被合并的变量。如果我们将前面的例子修改为使用`:only`，会发生以下情况。
 
 ```
 cheese.analysis=> (clojure.core/refer 'cheese.taxonomy :only ['bries])
@@ -245,7 +245,7 @@ cheese.analysis=> yummy-bries
 ; => ["Wisconsin" "Somerset" "Brie de Meaux" "Brie de Melun"]
 ```
 
-注意，在这些最后的例子中，我们必须使用`clojure.core`中所有对象的完全合格名称，如`clojure.core/ns-map`和`clojure.core/refer`。我们不需要在`user`命名空间中这样做。这是因为 REPL 在`user`命名空间中自动引用`clojure.core`。当你创建一个新的命名空间时，你可以通过评估`(clojure.core/refer-clojure)`来简化你的生活；这将引用 clojure.core 命名空间，从现在起我将使用它。在例子中你不会看到`clojure.core/refer`，而只会看到`refer`。
+注意，在这些最后的例子中，我们必须使用`clojure.core`中所有对象的完全合格名称，如`clojure.core/ns-map`和`clojure.core/refer`。我们不需要在`user`命名空间中这样做。这是因为 REPL 在`user`命名空间中自动引用`clojure.core`。当你创建一个新的命名空间时，你可以通过求值`(clojure.core/refer-clojure)`来简化你的生活；这将引用 clojure.core 命名空间，从现在起我将使用它。在例子中你不会看到`clojure.core/refer`，而只会看到`refer`。
 
 另一件需要注意的事情是，你可以完全自由地组织你的函数和数据，跨越命名空间。这让你可以合理地将相关的函数和数据归入同一命名空间。
 
@@ -259,7 +259,7 @@ cheese.analysis=> yummy-bries
   [])
 ```
 
-如果你试图从其他命名空间调用这个函数或引用它，Clojure 将抛出一个异常。你可以在评估➊和➋的代码时看到这一点。
+如果你试图从其他命名空间调用这个函数或引用它，Clojure 将抛出一个异常。你可以在求值➊和➋的代码时看到这一点。
 
 ```
 cheese.analysis=> (in-ns 'cheese.taxonomy)
@@ -324,12 +324,12 @@ lein new app the-divine-cheese-code
 
 `ns`是在 Clojure 中创建和管理命名空间的主要方式。我很快就会对它进行全面的解释。不过现在，只需知道这一行与我们在清单 6-1 中使用的`in-ns`函数非常相似。如果一个命名空间不存在，它就创建一个命名空间，然后切换到它。我在第 12 章也详细介绍了`(:gen-class)`。
 
-命名空间的名字是`the-divine-cheese-code.core`。在 Clojure 中，命名空间的名称和声明命名空间的文件路径之间有一个一对一的映射，根据以下约定。
+命名空间的名字是`the-divine-cheese-code.core`。在 Clojure 中，命名空间的名称和声明命名空间的文件路径之间有一个一对一的 Map，根据以下约定。
 
 * 当你用`lein`创建一个目录时（就像你在这里做的那样），源代码的根默认为_src_。
-* 名称空间中的破折号对应于文件系统中的下划线。所以`the-divine-cheese-code`在文件系统中被映射为_the\_divine\_cheese\_code_。
+* 名称空间中的破折号对应于文件系统中的下划线。所以`the-divine-cheese-code`在文件系统中被 Map 为_the\_divine\_cheese\_code_。
 * 命名空间名称中的句号（`.`）前面的成分对应于一个目录。例如，由于`the-divine-cheese-code.core`是命名空间的名称，_the\_divine\_cheese\_code_是一个目录。
-* 命名空间的最后一个组成部分对应于扩展名为\*.clj_的文件；`core`被映射到_core.clj\*。
+* 命名空间的最后一个组成部分对应于扩展名为\*.clj_的文件；`core`被 Map 到_core.clj\*。
 
 你的项目将有一个命名空间，`the-divine-cheese-code.visualization.svg`。现在继续为它创建文件。
 
@@ -357,7 +357,7 @@ touch src/the_divine_cheese_code/visualization/svg.clj
   (clojure.string/join " " (map latlng->point locations)))
 ```
 
-这定义了两个函数，`latlng->point`和`points`，你将用它们来把一串经纬度坐标转换成一串点。 要使用_core.clj_文件中的这段代码，你必须`require`它。`require`接收一个指定命名空间的符号，并确保该命名空间存在并准备使用；在这种情况下，当你调用`(require 'the-divine-cheese`-code.visualization.svg)`，Clojure读取并评估相应的文件。通过评估该文件，它创建了`the-divine-cheese-code.visualization.svg`命名空间，并在该命名空间中定义了函数`latlng->point`和`points\`。即使文件_svg.clj_在你的项目目录中，Clojure 在运行你的项目时也不会自动评估它；你必须明确告诉 Clojure 你想使用它。
+这定义了两个函数，`latlng->point`和`points`，你将用它们来把一串经纬度坐标转换成一串点。 要使用_core.clj_文件中的这段代码，你必须`require`它。`require`接收一个指定命名空间的符号，并确保该命名空间存在并准备使用；在这种情况下，当你调用`(require 'the-divine-cheese`-code.visualization.svg)`，Clojure读取并求值相应的文件。通过求值该文件，它创建了`the-divine-cheese-code.visualization.svg`命名空间，并在该命名空间中定义了函数`latlng->point`和`points\`。即使文件_svg.clj_在你的项目目录中，Clojure 在运行你的项目时也不会自动求值它；你必须明确告诉 Clojure 你想使用它。
 
 在要求命名空间之后，你可以_参考_它，这样你就不必使用完全合格的名称来引用函数。继续要求`the-divine-cheese-code.visualization.svg`，并添加`heists`序列，使_core.clj_与列表相符。
 
@@ -408,7 +408,7 @@ touch src/the_divine_cheese_code/visualization/svg.clj
 1. 如果你已经用这个符号（`the-divine-cheese-code.visualization.svg`）调用了`require`，则不做任何事情。
 2. 否则，使用["文件路径和命名空间名称之间的关系 "第 133 页](https://www.braveclojure.com/organization/#Anchor-3)中描述的规则找到与该符号对应的文件。在这种情况下，Clojure 找到`src/the_divine_cheese_code/visualization/svg.clj`。
 
-读取并评估该文件的内容。Clojure 希望该文件声明一个与它的路径相对应的命名空间（我们的文件就是如此）。
+读取并求值该文件的内容。Clojure 希望该文件声明一个与它的路径相对应的命名空间（我们的文件就是如此）。
 
 `require`也可以让你在需要一个命名空间时使用`:as`或`alias`来别名它。这样。
 
@@ -509,7 +509,7 @@ latlng->point
 
 如果你在_divine\_cheese\_code.core.clj_的开头调用这个，会破坏你的代码，迫使你在`-main'函数中使用`clojure.core/println'。
 
-在`ns`中，`(:`refer-clojure)\`的形式被称为_reference_。这对你来说可能看起来很奇怪。这个引用是一个函数调用？一个宏？它是什么？你将在第 7 章中了解更多关于底层机器的知识。现在，你只需要了解每个引用如何映射到函数调用。例如，前面的代码就相当于这样。
+在`ns`中，`(:`refer-clojure)\`的形式被称为_reference_。这对你来说可能看起来很奇怪。这个引用是一个函数调用？一个宏？它是什么？你将在第 7 章中了解更多关于底层机器的知识。现在，你只需要了解每个引用如何 Map 到函数调用。例如，前面的代码就相当于这样。
 
 ```
 (in-ns 'the-divine-cheese-code.core)
@@ -632,7 +632,7 @@ latlng->point
 (use 'clojure.java.io)
 ```
 
-注意，当你在`:use`后面加上一个矢量时，它把第一个符号作为_base_，然后用后面的每个符号调用`use`。
+注意，当你在`:use`后面加上一个 Vector 时，它把第一个符号作为_base_，然后用后面的每个符号调用`use`。
 
 哦，我的天哪，就是这样! 现在你可以像专家一样使用`ns`了! 你需要这样做，该死的，因为那个_voleur des fromages_（他们可能在法语中这样说）仍然在肆意妄为。还记得他/她吗？
 
@@ -814,7 +814,7 @@ latlng->point
 
 ## 总结
 
-在本章中你学到了很多东西。在这一点上，你应该拥有所有你需要的工具来开始组织你的项目。你现在知道命名空间组织了符号和 vars 之间的映射，vars 是对 Clojure 对象（数据结构、函数等）的引用。 `def`存储一个对象，并用符号和指向该对象的 var 之间的映射来更新当前命名空间。你可以用`defn-`创建私有函数。
+在本章中你学到了很多东西。在这一点上，你应该拥有所有你需要的工具来开始组织你的项目。你现在知道命名空间组织了符号和 vars 之间的 Map，vars 是对 Clojure 对象（数据结构、函数等）的引用。 `def`存储一个对象，并用符号和指向该对象的 var 之间的 Map 来更新当前命名空间。你可以用`defn-`创建私有函数。
 
 Clojure 允许你用`create-ns`创建命名空间，但通常使用`in-ns`更有用，它也会切换到命名空间。你可能只在 REPL 中使用这些函数。当你在 REPL 中时，你总是_在_当前命名空间中。当你在文件中而不是在 REPL 中定义名字空间时，你应该使用 `ns` 宏，名字空间和它在文件系统中的路径之间是一对一的关系。
 

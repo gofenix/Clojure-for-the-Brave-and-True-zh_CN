@@ -11,7 +11,7 @@
 * 执行 JAR 文件
 * 在 Clojure REPL 中执行代码
 
-## First Things First: 什么是 Clojure
+## 第一重要的事: 什么是 Clojure
 
 Clojure 是由 Rich Hickey 在一座神话般的火山中铸造的。他使用 Lisp、函数式编程和他自己的一绺史诗般的头发的合金，创造了一种令人愉快而强大的语言。它的 Lisp 遗产使你有能力写出比大多数非 Lisp 语言更有表现力的代码，而它对函数式编程的独特理解将使你作为一个程序员的思维更敏锐。此外，Clojure 为你提供了更好的工具来处理复杂的领域（如并发编程），这些领域在传统上被认为会使开发人员陷入多年的治疗中。
 
@@ -26,9 +26,9 @@ Clojure 是由 Rich Hickey 在一座神话般的火山中铸造的。他使用 L
 * JAR 文件是 Java 字节码的集合。
 * Java 程序通常以 JAR 文件分发。
 * Java 程序_clojure.jar_ 读取 Clojure 源代码并产生 Java 字节码。
-* 然后，该 Java 字节码由已经运行_clojure.jar_的同一 JVM 进程执行。
+* 然后，该 Java 字节码由已经运行_clojure.jar_的 JVM 进程执行。
 
-Clojure 继续发展。截至目前，Clojure 的版本为 1.9.0，开发工作正在进行中。如果你在遥远的未来读到这本书，并且 Clojure 有更高的版本号，不要担心！这本书涵盖了 Clojure 的所有内容。本书涵盖了 Clojure 的基础知识，这些知识在不同的版本中应该不会改变。没有必要让你的机器人管家把这本书退回给书店。
+Clojure 持续在发展。截至目前，Clojure 的版本为 1.9.0，开发工作仍在进行中。如果你在遥远的未来读到这本书，并且 Clojure 有更高的版本号，不要担心！这本书涵盖了 Clojure 的所有内容。本书涵盖了 Clojure 的基础知识，这些知识在不同的版本中应该不会改变。没有必要让你的机器人管家把这本书退回给书店。
 
 现在你知道什么是 Clojure 了，让我们来实际构建一个该死的 Clojure 程序吧!
 
@@ -53,7 +53,7 @@ lein new app clojure-noob
 | | | core_test.clj
 ```
 
-这个项目骨架本身并不特别，也不像 Clojure 那样。它只是 Leiningen 使用的一种惯例。你将使用 Leiningen 来构建和运行 Clojure 应用程序，Leiningen 希望你的应用程序有这种结构。第一个需要注意的文件是位于➊的_project.clj_，它是 Leiningen 的一个配置文件。它可以帮助 Leiningen 回答这样的问题："这个项目有什么依赖性？"和 "当这个 Clojure 程序运行时，什么函数应该先运行？" 一般来说，你会把你的源代码保存在_src/\<project\_name>_。在这种情况下，位于➌的_src/clojure\_noob/core.clj_文件就是你要写一段时间的 Clojure 代码的地方。位于➍的_test_目录显然包含了测试，而位于➋的_resources_是你存储图片等资产的地方。
+这个项目骨架本身并不特别，也不像 Clojure 那样。它只是 Leiningen 使用的一种惯例。你将使用 Leiningen 来构建和运行 Clojure 应用程序，Leiningen 希望你的应用程序有这种结构。第一个需要注意的文件是位于➊的_project.clj_，它是 Leiningen 的一个配置文件。它可以帮助 Leiningen 回答这样的问题："这个项目有什么依赖？"和 "当这个 Clojure 程序运行时，什么函数应该先运行？" 一般来说，你会把你的源代码保存在_src/\<project\_name>_。在这种情况下，位于➌的_src/clojure\_noob/core.clj_文件就是你要写一段时间的 Clojure 代码的地方。位于➍的_test_目录显然包含了测试，而位于➋的_resources_是你存储图片等资产的地方。
 
 ### 运行 Clojure 项目
 
@@ -69,7 +69,7 @@ lein new app clojure-noob
 ➌   (println "Hello, World!"))
 ```
 
-➊处的行声明了一个命名空间，你现在不需要担心这个问题。➋处的`-main'函数是你的程序的*入口，这个话题将在附录A中介绍。现在，将➌处的 "你好，`世界！"改为 "我是一个小茶壶！"。全行应该是`(println "I'm a little teapot!"))`。
+➊处的行声明了一个命名空间，你现在不需要担心这个问题。➋处的`-main'函数是你的程序的*入口，这个话题将在附录A中介绍。现在，将➌处的`"Hello, World!"`改为`"I'm a little teapot!"`。全行应该是`(println "I'm a little teapot!"))\`。
 
 接下来，在你的终端导航到_clojure\_noob_目录，然后输入。
 
@@ -79,9 +79,9 @@ lein run
 
 ![](https://www.braveclojure.com/assets/images/cftbat/getting-started/teapot.png)
 
-你应该看到输出`"我是一个小茶壶！"`恭喜你，小茶壶，你写并执行了一个程序！"。
+你应该看到输出`"I'm a little teapot!"`恭喜你，小茶壶，你编写并执行了一个程序！"。
 
-当你阅读本书时，你会了解到更多关于程序中实际发生的事情，但现在你需要知道的是，你创建了一个函数，`-main'，当你在命令行执行`lein run'时，这个函数就会运行。
+当你阅读本书时，你会了解到更多关于程序中实际发生的事情，但现在你需要知道的是，你创建了一个函数，`-main`，当你在命令行执行`lein run`时，这个函数就会运行。
 
 ### 构建 Clojure 项目
 
@@ -97,7 +97,7 @@ lein uberjar
 java -jar target/uberjar/clojure-noob-0.1.0-SNAPSHOT-standalone.jar
 ```
 
-看看这个! 文件_target/uberjar/clojure-noob-0.1.0-SNAPSHOT\*\*-standalone.jar_是你新的、获奖的 Clojure 程序，你可以在几乎任何平台上发布和运行。
+看看这个! 文件_target/uberjar/clojure-noob-0.1.0-SNAPSHOT\*\*-standalone.jar_是你的 Clojure 程序，你可以在几乎任何平台上发布和运行。
 
 现在你已经掌握了构建、运行和分发（非常）基本的 Clojure 程序所需的所有基本细节。在后面的章节中，你会了解到更多的细节，当你运行前面的命令时，Leiningen 在做什么，对 Clojure 与 JVM 的关系以及你如何运行生产代码有了完整的了解。
 
@@ -105,7 +105,7 @@ java -jar target/uberjar/clojure-noob-0.1.0-SNAPSHOT-standalone.jar
 
 ### 使用 REPL
 
-REPL 是一个用于试验代码的工具。它允许你与正在运行的程序进行交互，并快速尝试各种想法。它通过向你提供一个提示，让你输入代码来实现这一目的。然后，它_读取_你的输入，_评估_它，_打印_结果，并_循环_，再次向你提供提示。
+REPL 是一个用于试验代码的工具。它允许你与正在运行的程序进行交互，并快速尝试各种想法。它通过向你提供一个提示，让你输入代码来实现这一目的。然后，它_读取_你的输入，_求值_它，_打印_结果，并_循环_，再次向你提供提示。
 
 这个过程实现了一个快速的反馈循环，这在大多数其他语言中是不可能的。我强烈建议你经常使用它，因为你能够在学习过程中快速检查你对 Clojure 的理解。除此之外，REPL 开发是 Lisp 体验的一个重要部分，如果你不使用它，你就真的错过了。
 
@@ -134,7 +134,7 @@ Examples from clojuredocs.org: [clojuredocs or cdoc]
 clojure-noob.core=>
 ```
 
-最后一行，`clojure-noob.core=>`，告诉你，你在`clojure`-noob.core\`命名空间中。你将在后面学习命名空间，但现在注意到命名空间基本上与你的_src/**clojure\_noob**/core.clj_文件的名称一致。另外，注意到 REPL 显示的版本是_Clojure 1.9.0_，但如前所述，无论你使用哪个版本，一切都可以正常工作。
+最后一行，`clojure-noob.core=>`，告诉你，你在`clojure -noob.core`命名空间中。你将在后面学习命名空间，但现在注意到命名空间基本上与你的_src/**clojure\_noob**/core.clj_文件的名称一致。另外，注意到 REPL 显示的版本是_Clojure 1.9.0_，但如前所述，无论你使用哪个版本，一切都可以正常工作。
 
 该提示还表明你的代码在 REPL 中被加载，你可以执行被定义的函数。现在只有一个函数，`-main`，被定义了。现在就去执行它吧。
 
@@ -144,7 +144,7 @@ I'm a little teapot!
 nil
 ```
 
-干得好! 你刚刚使用 REPL 评估了一个函数调用。试试几个更基本的 Clojure 函数。
+干得好! 你刚刚使用 REPL 求值了一个函数调用。试试几个更基本的 Clojure 函数。
 
 ```clojure
 clojure-noob.core=> (+ 1 2 3 4)
@@ -155,9 +155,9 @@ clojure-noob.core=> (first [1 2 3 4])
 1
 ```
 
-真棒! 你加了一些数字，乘了一些数字，并从一个向量中取出了第一个元素。你还第一次接触到了奇怪的 Lisp 语法! 所有的 Lisp，包括 Clojure，都采用_前缀符号_，这意味着运算符在表达式中总是排在第一位。如果你不确定这意味着什么，不要担心。你很快就会了解到 Clojure 的所有语法。
+真棒! 你加了一些数字，乘了一些数字，并从一个 Vector 中取出了第一个元素。你还第一次接触到了奇怪的 Lisp 语法! 所有的 Lisp，包括 Clojure，都采用_前缀符号_，这意味着运算符在表达式中总是排在第一位。如果你不确定这意味着什么，不要担心。你很快就会了解到 Clojure 的所有语法。
 
-从概念上讲，REPL 类似于安全外壳（SSH）。就像你可以使用 SSH 与远程服务器交互一样，Clojure REPL 允许你与正在运行的 Clojure 进程交互。这项功能可以非常强大，因为你甚至可以将 REPL 附加到一个实时生产的应用程序，并在它运行时修改你的程序。不过现在，你将使用 REPL 来建立你对 Clojure 语法和语义的了解。
+从概念上讲，REPL 类似于 SSH。就像你可以使用 SSH 与远程服务器交互一样，Clojure REPL 允许你与正在运行的 Clojure 进程交互。这项功能可以非常强大，因为你甚至可以将 REPL 附加到一个实时生产的应用程序，并在它运行时修改你的程序。不过现在，你将使用 REPL 来建立你对 Clojure 语法和语义的了解。
 
 还有一点要注意：今后，本书将介绍没有 REPL 提示的代码，但请尝试一下这些代码! 下面是一个例子。
 
@@ -184,7 +184,7 @@ clojure-noob.core=> (first [1 2 3 4])
 
 ## 总结
 
-我真为你感到骄傲，小茶壶。你已经运行了你的第一个 Clojure 程序! 不仅如此，你还熟悉了 REPL，这是开发 Clojure 软件的最重要工具之一。太神奇了! 这让我想起了我个人英雄之一的《万岁》中的不朽名句。
+我真为你感到骄傲，小茶壶。你已经运行了你的第一个 Clojure 程序! 不仅如此，你还熟悉了 REPL，这是开发 Clojure 软件的最重要工具之一。太神奇了! 这让我想起了我个人英雄之一的《Long Live》中的不朽名句。
 
 > You held your head like a hero\
 > On a history book page\

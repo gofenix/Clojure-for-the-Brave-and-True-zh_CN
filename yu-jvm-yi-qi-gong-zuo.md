@@ -318,7 +318,7 @@ lein uberjar
 java -jar target/uberjar/clojure-noob-0.1.0-SNAPSHOT-standalone.jar
 ```
 
-你应该看到打印出来的两条信息。"清洁度仅次于神性 "和 "我是一个小茶壶！" 注意，你不需要 Leiningen 来运行这个 JAR 文件；你可以把它发送给朋友和邻居，只要他们安装了 Java，就可以运行它。
+你应该看到打印出来的两条信息。"清洁度仅次于神性 "和 "I'm a little teapot!" 注意，你不需要 Leiningen 来运行这个 JAR 文件；你可以把它发送给朋友和邻居，只要他们安装了 Java，就可以运行它。
 
 ## Java Interop
 
@@ -415,7 +415,7 @@ Rich Hickey 对 Clojure 的设计目标之一是创造一种_实用的语言。�
 
 这里有几个有趣的细节。首先，你需要为`stack`创建一个`let`绑定，就像你在➊看到的那样，并把它作为`let`形式的最后一个表达式。如果你不这样做，整个表达式的值将是字符串`"Game of Thrones, ho!"`，因为那是`push`的返回值。
 
-第二，Clojure 用方括号来打印堆栈，与它用于向量的文本表示法相同，这可能会让你感到困惑，因为它不是一个向量。然而，你可以使用 Clojure 的`seq`函数来读取堆栈中的数据结构，比如`first`，。
+第二，Clojure 用方括号来打印堆栈，与它用于 Vector 的文本表示法相同，这可能会让你感到困惑，因为它不是一个 Vector。然而，你可以使用 Clojure 的`seq`函数来读取堆栈中的数据结构，比如`first`，。
 
 ```
 (let [stack (java.util.Stack.)]
