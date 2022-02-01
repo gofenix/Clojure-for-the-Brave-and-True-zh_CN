@@ -1,7 +1,7 @@
 # README
 
-### Clojure for the Brave and True
+### 勇敢者的Clojure
 
-Do you want to learn Clojure, the most powerful and fun programming language on the planet? Do you want to unravel the mysteries of Lisp and functional programming? Do you want to punch hobbits and track down glittery vampires? _Then you need to read this book!_
+你想学习Clojure，地球上最强大和最有趣的编程语言吗？你想揭开Lisp和函数式编程的神秘面纱吗？你想揍霍比特人并追踪闪光的吸血鬼吗？那么你需要读一读这本书!&#x20;
 
-Clojure’s popularity continues to grow, with companies like Netflix using it to build everything from complex, distributed systems to simple microservices to user interfaces. In _Clojure for the Brave and True_, you'll learn to wield this awesome language to its fullest!
+Clojure的受欢迎程度不断提高，像Netflix这样的公司用它来构建从复杂的分布式系统到简单的微服务再到用户界面的一切。在《勇敢者的Clojure》一书中，你将学习如何充分挥洒这门令人敬畏的语言!
