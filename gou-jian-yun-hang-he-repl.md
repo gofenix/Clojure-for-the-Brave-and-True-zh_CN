@@ -53,11 +53,11 @@ lein new app clojure-noob
 | | | core_test.clj
 ```
 
-这个项目骨架本身并不特别，也不像 Clojure 那样。它只是 Leiningen 使用的一种惯例。你将使用 Leiningen 来构建和运行 Clojure 应用程序，Leiningen 希望你的应用程序有这种结构。第一个需要注意的文件是位于➊的_project.clj_，它是 Leiningen 的一个配置文件。它可以帮助 Leiningen 回答这样的问题："这个项目有什么依赖？"和 "当这个 Clojure 程序运行时，什么函数应该先运行？" 一般来说，你会把你的源代码保存在_src/\<project\_name>_。在这种情况下，位于➌的_src/clojure\_noob/core.clj_文件就是你要写一段时间的 Clojure 代码的地方。位于➍的_test_目录显然包含了测试，而位于➋的_resources_是你存储图片等资产的地方。
+这个项目骨架本身并不特别，也不是什么类似 Clojure-y 的东西。它只是 Leiningen 使用的一种惯例。你将使用 Leiningen 来构建和运行 Clojure 应用程序，Leiningen 希望你的应用程序有这种结构。第一个需要注意的文件是位于➊的_project.clj_，它是 Leiningen 的一个配置文件。它可以帮助 Leiningen 回答这样的问题："这个项目有什么依赖？"和 "当这个 Clojure 程序运行时，什么函数应该先运行？" 一般来说，你会把你的源代码保存在_src/\<project\_name>_。在这种情况下，位于➌的_src/clojure\_noob/core.clj_文件就是你要写一段时间的 Clojure 代码的地方。位于➍的_test_目录显然包含了测试，而位于➋的_resources_是你存储图片等资产的地方。
 
 ### 运行 Clojure 项目
 
-现在让我们来实际运行这个项目。在你喜欢的编辑器中打开_src/clojure\_noob/core.clj_。你应该看到这个。
+现在让我们来实际运行这个项目。在你喜欢的编辑器中打开_src/clojure\_noob/core.clj_。你应该会看到这个。
 
 ```clojure
 ➊ (ns clojure-noob.core
@@ -69,7 +69,7 @@ lein new app clojure-noob
 ➌   (println "Hello, World!"))
 ```
 
-➊处的行声明了一个命名空间，你现在不需要担心这个问题。➋处的`-main'函数是你的程序的*入口，这个话题将在附录A中介绍。现在，将➌处的`"Hello, World!"`改为`"I'm a little teapot!"`。全行应该是`(println "I'm a little teapot!"))\`。
+➊处的行声明了一个命名空间，你现在不需要担心这个问题。➋处的`-main`函数是你的程序的*入口*，这个话题将在附录A中介绍。现在，将➌处的`"Hello, World!"`改为`"I'm a little teapot!"`。全行应该是`(println "I'm a little teapot!"))`。
 
 接下来，在你的终端导航到_clojure\_noob_目录，然后输入。
 
@@ -79,7 +79,9 @@ lein run
 
 ![](https://www.braveclojure.com/assets/images/cftbat/getting-started/teapot.png)
 
-你应该看到输出`"I'm a little teapot!"`恭喜你，小茶壶，你编写并执行了一个程序！"。
+你应该看到输出`"I'm a little teapot!"`
+
+恭喜你，小茶壶，你编写并执行了一个程序！"。
 
 当你阅读本书时，你会了解到更多关于程序中实际发生的事情，但现在你需要知道的是，你创建了一个函数，`-main`，当你在命令行执行`lein run`时，这个函数就会运行。
 
@@ -91,13 +93,13 @@ lein run
 lein uberjar
 ```
 
-这个命令创建了_target/uberjar/clojure-noob-0.1.0\*\*-SNAPSHOT-standalone.jar_文件。你可以通过运行这个命令使 Java 执行它。
+这个命令创建了_target/uberjar/clojure-noob-0.1.0-SNAPSHOT-standalone.jar_文件。你可以通过运行这个命令使 Java 执行它。
 
 ```clojure
 java -jar target/uberjar/clojure-noob-0.1.0-SNAPSHOT-standalone.jar
 ```
 
-看看这个! 文件_target/uberjar/clojure-noob-0.1.0-SNAPSHOT\*\*-standalone.jar_是你的 Clojure 程序，你可以在几乎任何平台上发布和运行。
+看看这个! 文件_target/uberjar/clojure-noob-0.1.0-SNAPSHOT-standalone.jar_是你的一个全新而强大的 Clojure 程序，你现在可以在几乎任何平台上发布和运行。
 
 现在你已经掌握了构建、运行和分发（非常）基本的 Clojure 程序所需的所有基本细节。在后面的章节中，你会了解到更多的细节，当你运行前面的命令时，Leiningen 在做什么，对 Clojure 与 JVM 的关系以及你如何运行生产代码有了完整的了解。
 
@@ -168,7 +170,7 @@ clojure-noob.core=> (first [1 2 3 4])
 ; => 4
 ```
 
-当你看到这样的代码片段时，以`；=>`开头的行表示正在运行的代码的输出。在这种情况下，应该打印出`这里没有提示'的文字，代码的返回值是`4'。
+当你看到这样的代码片段时，以`；=>`开头的行表示正在运行的代码的输出。在这种情况下，应该打印出`no prompt here!'的文字，代码的返回值是`4'。
 
 ## Clojure 编辑器
 
