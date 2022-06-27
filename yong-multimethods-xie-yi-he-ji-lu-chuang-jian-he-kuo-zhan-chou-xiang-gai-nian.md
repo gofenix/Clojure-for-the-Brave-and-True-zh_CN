@@ -4,7 +4,7 @@
 
 抽象思考的能力确实是人类最好的特征之一。它可以让你规避你的认知极限，将不同的细节捆绑在一起，形成一个整齐的概念包，让你可以在工作记忆中持有。你不需要去想 "可挤压的红球鼻子装饰 "这种笨重的想法，而只需要 "小丑鼻子 "这个概念。
 
-在 Clojure 中，一个_抽象_是一个操作的集合，而_数据类型_实现抽象。例如，seq 抽象由 "first "和 "rest "等操作组成，而 Vector 数据类型是该抽象的实现；它对所有 seq 操作做出响应。像`[:seltzer :water]`这样的特定 Vector 是该数据类型的\*实例。
+在 Clojure 中，一个 _抽象_ 抽象一个操作的集合，而 _数据类型_ 数据类型现抽象。例如，seq 抽象由 "first "和 "rest "等操作组成，而 Vector 数据类型是该抽象的实现；它对所有 seq 操作做出响应。像`[:seltzer :water]`这样的特定 Vector 是该数据类型的\*实例。
 
 编程语言越是让你以抽象的方式思考和写作，你的生产力就越高。例如，如果你知道一个数据结构是 seq 抽象的一个实例，你就可以立即调用一个大的知识网，了解哪些函数可以与数据结构一起工作。因此，你会花时间去实际使用这个数据结构，而不是不断地去查找关于它如何工作的文档。同样地，如果你扩展一个数据结构，使其与 seq 抽象一起工作，你就可以在上面使用大量的 seq 函数库。
 
@@ -12,15 +12,15 @@
 
 ## 多态
 
-我们在 Clojure 中实现抽象的主要方式是将一个操作名称与一个以上的算法联系起来。这种技术被称为_多态_。例如，在列表上执行 "conj "的算法与 Vector 的算法不同，但我们把它们统一在同一个名字下，以表明它们实现了同一个概念，即_向_这个数据结构添加一个元素。
+我们在 Clojure 中实现抽象的主要方式是将一个操作名称与一个以上的算法联系起来。这种技术被称为 _多态_ 多态例如，在列表上执行 "conj "的算法与 Vector 的算法不同，但我们把它们统一在同一个名字下，以表明它们实现了同一个概念，即_向_这个数据结构添加一个元素。
 
-因为 Clojure 的许多数据类型都依赖于 Java 的标准库，所以本章中使用了一点 Java。例如，Clojure 的字符串只是 Java 的字符串，是 Java 类`java.lang.String`的实例。要在 Java 中定义你自己的数据类型，你要使用类。Clojure 提供了额外的类型结构。 _记录_和_类型_。本书只涉及记录。
+因为 Clojure 的许多数据类型都依赖于 Java 的标准库，所以本章中使用了一点 Java。例如，Clojure 的字符串只是 Java 的字符串，是 Java 类`java.lang.String`的实例。要在 Java 中定义你自己的数据类型，你要使用类。Clojure 提供了额外的类型结构。 _记录_ 和 _类型_ 类型本书只涉及记录。
 
 在我们学习记录之前，让我们看看 Multimethods，这是我们定义多态行为的第一个工具。
 
 ### Multimethods
 
-_Multimethods_为你提供了一种直接的、灵活的方法，将多态引入你的代码中。使用 Multimethods，你可以通过定义一个_调度函数_将一个名字与多个实现联系起来，该函数产生_调度值_，用来决定使用哪个_方法_。调度函数就像餐厅里的主人。主人会问你一些问题，比如 "你有预订吗？"和 "聚会人数？"，然后给你安排相应的座位。同样，当你调用一个 Multimethods 时，调度函数将询问参数，并将它们发送到正确的方法，正如这个例子所显示的。
+_Multimethods_为你提供了一种直接的、灵活的方法，将多态引入你的代码中。使用 Multimethods，你可以通过定义一个 _调度函数_ 调度函数一个名字与多个实现联系起来，该函数产生 _调度值_ 调度值用来决定使用哪个 _方法_ 方法调度函数就像餐厅里的主人。主人会问你一些问题，比如 "你有预订吗？"和 "聚会人数？"，然后给你安排相应的座位。同样，当你调用一个 Multimethods 时，调度函数将询问参数，并将它们发送到正确的方法，正如这个例子所显示的。
 
 ```
 (ns were-creatures)
@@ -45,9 +45,9 @@ _Multimethods_为你提供了一种直接的、灵活的方法，将多态引入
 
 ![](https://www.braveclojure.com/assets/images/cftbat/multimethods-records-protocols/weresimmons.png)
 
-我们在➊处创建 Multimethods。这告诉 Clojure，"嘿，创建一个名为`full-moon-behavior'的新Multimethods。每当有人调用`full-moon-behavior`时，在参数上运行调度函数`(fn \[were-creature] (:were-type were-creature))\`。使用该函数的结果，也就是调度值，来决定使用哪个具体方法！"
+我们在➊处创建 Multimethods。这告诉 Clojure，"嘿，创建一个名为`full-moon-behavior`新Multimethods。每当有人调用`full-moon-behavior`时，在参数上运行调度函数`(fn [were-creature] (:were-type were-creature))`。使用该函数的结果，也就是调度值，来决定使用哪个具体方法！"
 
-接下来，我们定义了两个方法，一个是当调度函数返回的值是➋的`:wolf`时，另一个是当它是➌的`:simmons`时。方法定义看起来很像函数定义，但主要的区别是，方法名称后面紧跟着_dispatch 值_。 `:wolf`和`:simmons`都是_dispatch 值_。这与调度\*值不同，后者是调度函数的返回值。完整的调度序列是这样的。
+接下来，我们定义了两个方法，一个是当调度函数返回的值是➋的`:wolf`时，另一个是当它是➌的`:simmons`时。方法定义看起来很像函数定义，但主要的区别是，方法名称后面紧跟着 _dispatch 值_ dispatch 值 `:wolf`和`:simmons`都是 _dispatch 值_ 。dispatch 值这与调度值不同，后者是调度函数的返回值。完整的调度序列是这样的。
 
 1. 形式`(full-moon-behavior {:wer-type :wolf :name "Rachel from next door"})`被求值。
 2. 运行`full-moon-behavior`的调度函数，返回`:wolf`作为调度值。
@@ -116,9 +116,9 @@ Multimethods 的一个很酷的地方是，你可以随时添加新的方法。�
 
 ### 协议
 
-在大约 93.58%的情况下，你会希望根据参数的类型来调度方法。例如，`count`需要对 Vector 使用不同的方法，而不是对 map 或 list 使用不同的方法。尽管可以用 Multimethods 进行类型调度，但_协议_是为类型调度而优化的。它们比 Multimethods 更有效，而且 Clojure 让你很容易简洁地指定协议的实现。
+在大约 93.58%的情况下，你会希望根据参数的类型来调度方法。例如，`count`需要对 Vector 使用不同的方法，而不是对 map 或 list 使用不同的方法。尽管可以用 Multimethods 进行类型调度，但 _协议_ 协议为类型调度而优化的。它们比 Multimethods 更有效，而且 Clojure 让你很容易简洁地指定协议的实现。
 
-Multimethods 只是一个多态的操作，而协议是一个_集合_的一个或多个多态操作。协议操作被称为方法，就像 Multimethods 操作一样。与 Multimethods 不同的是，Multimethods 对调度函数返回的任意值进行调度，而协议方法是根据第一个参数的类型进行调度，如本例所示。
+Multimethods 只是一个多态的操作，而协议是一个 _集合_ 集合一个或多个多态操作。协议操作被称为方法，就像 Multimethods 操作一样。与 Multimethods 不同的是，Multimethods 对调度函数返回的任意值进行调度，而协议方法是根据第一个参数的类型进行调度，如本例所示。
 
 ```
 (ns data-psychology)
@@ -128,15 +128,15 @@ Multimethods 只是一个多态的操作，而协议是一个_集合_的一个�
   ➎(feelings-about [x] [x y] "Feelings about self or other"))
 ```
 
-首先，在➊有`defprotocol`。这需要一个名字，`Psychodynamics` ➋，和一个可选的文件串，`"探究你的数据类型的内部深度"`➌。接下来是方法签名。一个_方法签名_由一个名称、一个参数说明和一个可选的文档串组成。第一个方法签名被命名为`thoughts`➍，只能接受一个参数。第二个名为`feelings-about`➎，可以接受一个或两个参数。协议有一个限制：方法不能有其余参数。所以像下面这样的行是不允许的。
+首先，在➊有`defprotocol`。这需要一个名字，`Psychodynamics`（心理动力学） ➋，和一个可选的文档字符串，`"Plumb the inner depths of your data types"`➌。接下来是方法签名。一个 _方法签名_ 由一个名称、一个参数说明和一个可选的文档字符串组成。第一个方法签名被命名为`thoughts`➍，只能接受一个参数。第二个名为`feelings-about`➎，可以接受一个或两个参数。协议有一个限制：方法不能使用剩余参数。所以像下面这样的行是不允许的。
 
 ```
 (feels-about [x] [x & others])
 ```
 
-通过定义一个协议，你在定义一个抽象，但你还没有定义如何实现这个抽象。这就像你为行为保留了名字（在这个例子中，你保留了`思想`和`感觉-关于`），但你还没有定义具体的行为。如果你要求值`(thoughts "blorb")`，你会得到一个异常，内容是："没有为 java.lang.String 类找到方法的实现：protocol: data-psychology/psychodynamics 的 thoughts。" 协议是根据第一个参数的类型分配的，所以当你调用`(thoughts "blorb")`时，Clojure 试图为字符串查找`thoughts`方法的实现，但失败了。
+通过定义一个协议，你在定义一个抽象，但你还没有定义如何实现这个抽象。这就像你为行为保留了名字（在这个例子中，你保留了`thoughts`和`feelings-about`），但你还没有定义具体的行为。如果你要求值`(thoughts "blorb")`，你会得到一个异常，内容大意是："没有为 java.lang.String 类找到方法的实现：protocol: data-psychology/psychodynamics 的 thoughts。" 协议是根据第一个参数的类型分配的，所以当你调用`(thoughts "blorb")`时，Clojure 试图为字符串查找`thoughts`方法的实现，但失败了。
 
-你可以通过_扩展_字符串数据类型来_实现_`Psychodynamics`协议来解决这一遗憾。
+你可以通过 _扩展_ 字符串数据类型来 _实现_ Psychodynamics 协议以解决这种令人遗憾的情况。
 
 ```
 ➊ (extend-type java.lang.String
@@ -156,13 +156,13 @@ Multimethods 只是一个多态的操作，而协议是一个_集合_的一个�
 ; => "schmorb is envious of 2's simpler way of life"
 ```
 
-`extend-type`后面是你想扩展的类或类型的名称和你想让它支持的协议--在这个例子中，你在➊处指定了类`java.lang.String`和你想让它支持的协议`Psychodynamics`，在➋。之后，你在➌为 "thoughts "方法和➍为 "feelings-about "方法提供一个实现。如果你要扩展一个类型来实现一个协议，你必须实现协议中的每一个方法，否则 Clojure 会抛出一个异常。在这种情况下，你不能只实现`思想'或只实现`感觉'；你必须同时实现这两种方法。
+`extend-type`后面是你想扩展的类或类型的名称和你想让它支持的协议——在这个例子中，你在➊处指定了类`java.lang.String`，并在➋处指定了你想让它支持的协议`Psychodynamics`。之后，你在➌处为 "thoughts "方法和在➍处为 "feelings-about"方法提供一个实现。如果你要扩展一个类型来实现一个协议，你必须实现协议中的每一个方法，否则 Clojure 会抛出一个异常。在这种情况下，你不能只实现`thoughts`或只实现`feelings-about`；你必须同时实现这两种方法。
 
-注意，这些方法的实现不像 Multimethods 那样以`defmethod`开头。事实上，它们看起来类似于函数定义，只是没有`defn'。要定义一个方法的实现，你要写一个以方法名称开头的表格，像`thoughts'，然后提供一个参数 Vector 和方法的主体。这些方法也允许重载，就像函数一样，你定义多重性的方法实现与多重性的函数类似。你可以在➍的 "feelings-about "实现中看到这一点。
+注意，这些方法的实现不像 Multimethods 那样以`defmethod`开头。事实上，它们看起来类似于函数定义，只是没有`defn`。要定义一个方法的实现，你要写一个以方法名称开头的表格，像`thoughts`，然后提供一个参数 Vector 和方法的主体。这些方法也允许重载，就像函数一样，你定义多重性的方法实现与多重性的函数类似。你可以在➍的 "feelings-about "实现中看到这一点。
 
-在你扩展了`java.lang.String`类型以实现`Psychodynamics`协议后，Clojure 知道如何调度调用`(thoughts "blorb")`，你会在➎得到字符串\`"blorb thinks, 'Truly, the character defines the data type'"。
+在你扩展了`java.lang.String`类型以实现`Psychodynamics`协议后，Clojure 就能知道如何调度调用`(thoughts "blorb")`，你会在➎得到字符串`"blorb thinks, 'Truly, the character defines the data type'"`。
 
-如果你想提供一个默认的实现，就像你对 multimethods 所做的那样呢？要做到这一点，你可以扩展`java.lang.Object`。这样做是因为 Java（也就是 Clojure）中的每个类型都是`java.lang.Object`的后代。如果这不是很有意义（也许是因为你不熟悉面向对象的编程），不要担心，只要知道它是有效的。下面是你如何使用这个技术为`Psychodynamics`协议提供一个默认实现。
+如果你想和 multimethods——样提供一个默认的实现，该怎么办呢？要做到这一点，你可以扩展`java.lang.Object`。这样做是因为 Java（也就是 Clojure）中的每个类型都是`java.lang.Object`的后代。如果这看上去不太合理（可能是因为您不熟悉面向对象编程），不要担心——只要知道它是有效的就好。下面是你如何使用这个技术为`Psychodynamics`协议提供一个默认实现。
 
 ```
 (extend-type java.lang.Object
@@ -182,9 +182,9 @@ Multimethods 只是一个多态的操作，而协议是一个_集合_的一个�
 ; => "meh about blorb"
 ```
 
-因为我们还没有为数字定义一个`心理动力学'的实现，Clojure将对`思想'和`感觉-关于'的调用分派给为`java.lang.Object'定义的实现。
+因为我们还没有为数字定义一个`Psychodynamics`的实现，Clojure将对`thoughts`和`feelings-about`的调用分派给为`java.lang.Object`定义的实现。
 
-你可以使用`extend-protocol'来代替多次调用`extend-type'来扩展多个类型，它可以让你一次为多个类型定义协议实现。下面是你如何定义前面的协议实现。
+你可以使用`extend-protocol`来代替多次调用`extend-type`来扩展多个类型，它可以让你一次为多个类型定义协议实现。下面是你如何定义前面的协议实现。
 
 ```
 (extend-protocol Psychodynamics
@@ -201,13 +201,13 @@ Multimethods 只是一个多态的操作，而协议是一个_集合_的一个�
     ([x y] (str "meh about " y))))
 ```
 
-你可能会发现这个技术比使用`extend-type`更方便。然后，你也可能不觉得。`extend-type`让你感觉如何？`extend-protocol`怎么样？来坐在这个沙发上，告诉我这一切。
+你可能会发现这个技术比使用`extend-type`更方便。当然，你也可能不觉得。`extend-type`让你感觉如何？`extend-protocol`怎么样？来来来，坐在这个沙发上，告诉我这一切。
 
 值得注意的是，一个协议的方法 "属于 "它们所定义的命名空间。在这些例子中，"心理动力学 "方法的完全限定名称是 "数据-心理学/想法 "和 "数据-心理学/感觉-关于"。如果你有面向对象的背景，这可能看起来很奇怪，因为方法属于 OOP 中的数据类型。但不要吓坏了! 这只是 Clojure 赋予抽象优先权的另一种方式。这个事实的一个后果是，如果你想让两个不同的协议包括具有相同名称的方法，你需要把协议放在不同的命名空间中。
 
 ## 记录
 
-Clojure 允许你创建_records_，它是自定义的、类似 Map 的数据类型。它们类似于 Map，因为它们将键和值联系起来，你可以像使用 Map 一样查询它们的值，而且它们像 Map 一样是不可改变的。它们的不同之处在于，你为记录指定\*字段。字段是数据的槽；使用它们就像指定一个数据结构应该有哪些键。记录也与 Map 不同，你可以扩展它们来实现协议。
+Clojure 允许你创建记录（  _records_ ），它是自定义的、类似 Map 的数据类型。它们类似于 Map，因为它们将键和值联系起来，你可以像使用 Map 一样查询它们的值，而且它们像 Map 一样是不可改变的。它们的不同之处在于，你为记录指定字段。字段是数据的槽；使用它们就像指定一个数据结构应该有哪些键。记录与 Map 还有一个不同之处，你可以扩展它们来实现协议。
 
 要创建一个记录，你可以使用`defrecord`来指定它的名字和字段。
 
@@ -229,7 +229,7 @@ Clojure 允许你创建_records_，它是自定义的、类似 Map 的数据类�
 ; => #were_records.WereWolf{:name "Lucian", :title "CEO of Melodrama"}.
 ```
 
-在➊，我们以创建 Java 对象的方式创建一个实例，使用类实例化的互操作调用。(_Interop_指的是在 Clojure 中与本地 Java 结构交互的能力)。请注意，参数必须遵循与字段定义相同的顺序。这样做的原因是，记录实际上是被掩盖的 Java 类。
+在➊，我们以创建 Java 对象的方式创建一个实例，使用类实例化的互操作（  _Interop_ ）调用。( _Interop_ 是指在 Clojure 中与本地 Java 结构交互的能力)。请注意，参数必须遵循与字段定义相同的顺序。这样做的原因是，记录实际上是被掩盖的 Java 类。
 
 ➋的实例看起来与➊的实例几乎相同，但关键的区别在于`->WereWolf`是一个函数。当你创建一条记录时，工厂函数`->`RecordName 和`map->`RecordName 会自动创建。在➌，`map->WereWolf`接收一个 map 作为参数，其关键字与记录类型的字段相对应，并返回一个记录。
 

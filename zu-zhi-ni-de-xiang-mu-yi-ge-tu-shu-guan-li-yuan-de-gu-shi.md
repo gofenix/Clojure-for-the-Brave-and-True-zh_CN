@@ -141,7 +141,7 @@ user=> (ns-name (create-ns 'cheese.taxonomy))
 ; => cheese-taxonomy
 ```
 
-在实践中，你可能永远不会在你的代码中使用`create-ns`，因为创建一个命名空间而不移入它并不是非常有用。使用`in-ns`更常见，因为如果命名空间不存在，它会创建命名空间，并\*\*切换到它，如清单 6-1 所示。
+在实践中，你可能永远不会在你的代码中使用`create-ns`，因为创建一个命名空间而不移入它并不是非常有用。使用`in-ns`更常见，因为如果命名空间不存在，它会创建命名空间，并切换到它，如清单 6-1 所示。
 
 ```
 user=> (in-ns 'cheese.analysis)
@@ -516,10 +516,10 @@ latlng->point
 (refer 'clojure.core :exclude ['println])
 ```
 
-在 "ns "中，有六种可能的引用。
+在 "ns" 中，有六种可能的引用。
 
-* `(:refer-clojure)`.
-* "(:require)"。
+* `(:refer-clojure)`
+* `(:require)`
 * `(:use)`
 * `(:import)`
 * `(:load)`
@@ -527,14 +527,14 @@ latlng->point
 
 `(:import)`和`(:gen-class)`将在第 12 章介绍。我将不介绍`(:load)`，因为它很少被使用。
 
-`(:require)`的工作方式很像`require`函数。例如，这样。
+`(:require)`的工作方式很像`require`函数。例如，这样:
 
 ```
 (ns the-divine-cheese-code.core
   (:require the-divine-cheese-code.visualization.svg))
 ```
 
-相当于这样。
+相当于这样:
 
 ```
 (in-ns 'the-divine-cheese-code.core)
@@ -656,7 +656,7 @@ latlng->point
   (:refer-clojure :exclude [min max])
 
 ➊ （defn comparator-over-maps
-  [比较-fn ks］
+  [comparison-fn ks]
   (fn [maps]
 ➋ (zipmap ks
 ➌ (map (fn [k] (apply comparison-fn (map k maps)))
