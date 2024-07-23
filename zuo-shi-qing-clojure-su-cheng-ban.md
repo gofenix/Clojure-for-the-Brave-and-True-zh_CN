@@ -1209,7 +1209,7 @@ Clojure 还提供了另一种更紧凑的方式来创建匿名函数。下面是
 让我们再看一下我们的对称函数中的`let`Form，这样我们就能明白到底发生了什么。
 
 ```
-(let [[part & remaining] remaining-asym-parts])
+(let [[part & remaining] remaining-asym-parts]
   (recur remaining
          (in into final-body-parts
                (set [part (matching-part part part)]))))    
